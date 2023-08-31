@@ -1,38 +1,31 @@
 import { useState, useEffect } from "react";
 import { ItemCount } from "./ItemCounter";
 import data from '../data/products.json';
-import { ItemList } from "./ItemList";
 import { useParams } from "react-router-dom";
+import { ItemDetail } from "./ItemDetail";
 
-
-export const ItemListContainer = (props) => {
-    const [product, setProduct] = useState([]);
+export const ItemDetailContainer = (props) => {
+    const [product, setProduct] = useState(null);
     const {id} = useParams();
-    console.log(id);
-
     useEffect(()=> {
         const promise = new Promise((resolve, reject)=>{
-        setTimeout(() => resolve(data), 2000);
+        setTimeout(() => {
+            const productById = data.find(product => product.id == id);
+            resolve(productById)
+        }, 2000);
     });
-    promise.then((data) => {
-        if(!id){
-            setProduct(data) 
-        } else {
-            const productsFiltered = data.filter(
-                (product) => product.category == id
-            )
-            setProduct(productsFiltered) 
-        }
-    });
+    promise.then((data) => setProduct(data));
     }, []);
+
     if(!product) return <div>Loading...</div>
+
     return (
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
         <div style={{ display: 'flex', justifyContent: 'center', margin: '1vw', alignItems: 'center'}}>
-            {props.greeting}
+            <h1>DETAILS</h1>
         </div>
         <div style={{ display: 'flex', flexWrap:'wrap'}}>
-            <ItemList products={product}/>
+            <ItemDetail product={product}/>
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             <ItemCount/>

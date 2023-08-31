@@ -8,12 +8,13 @@ export const NavBar = () => {
         <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height:'10vh'}}>
         <Navbar expand="lg" className="bg-body-tertiary">
           <Container > 
-            <Navbar.Brand href="#home">Home</Navbar.Brand>
+            <Navbar.Brand href="/">Home</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav  className="me-auto">
-                <Nav.Link href="#home">Board games</Nav.Link>
-                <Nav.Link href="#link">About us</Nav.Link>
+                <Nav.Link href="/category/Low">Low</Nav.Link>
+                <Nav.Link href="/category/Moderate">Moderate</Nav.Link>
+                <Nav.Link href="/category/High">High</Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Container>
