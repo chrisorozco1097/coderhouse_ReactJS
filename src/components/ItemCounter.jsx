@@ -1,7 +1,6 @@
 import { useState } from "react";
-const stock = 5;
 
-export const ItemCount = () => {
+export const ItemCount = ({stock, onAdd}) => {
     const [count, setCount] = useState(1);
     const handleIncreaseCount = () => {
         if (stock > count) {
@@ -13,20 +12,12 @@ export const ItemCount = () => {
             setCount((prev) => prev - 1);
         }
     }
-    const handleAdd= () => {
-        if(count == 0){
-            alert('No items selected');
-        }
-        else{
-            alert('Your added ' + count + ' Items to your cart');
-        }
-    }
     return (
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width:'50vh'}} className="itemCount">
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width:'50vh', margin: '1vh 0'}} className="itemCount">
             <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width:'10vh'}} onClick={handleDecreaseCount}>-</span>
             <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width:'10vh'}}>{count}</span>
             <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width:'10vh'}} onClick={handleIncreaseCount}>+</span>
-            <button onClick={handleAdd}>Add to cart</button>
+            <button onClick={()=>onAdd(count)}>Add to cart</button>
         </div>
     );
 };

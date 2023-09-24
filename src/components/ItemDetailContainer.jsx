@@ -15,21 +15,13 @@ export const ItemDetailContainer = (props) => {
         }, 2000);
     });
     promise.then((data) => setProduct(data));
-    }, []);
-
+    }, [id]);
+    
     if(!product) return <div>Loading...</div>
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-        <div style={{ display: 'flex', justifyContent: 'center', margin: '1vw', alignItems: 'center'}}>
-            <h1>DETAILS</h1>
-        </div>
-        <div style={{ display: 'flex', flexWrap:'wrap'}}>
             <ItemDetail product={product}/>
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <ItemCount/>
-        </div>  
         </div>
     );
 };

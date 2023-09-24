@@ -1,10 +1,16 @@
+import { useContext } from "react";
+import { Link } from "react-router-dom";
 import logo from "../assets/cart.png";
 import Image from 'react-bootstrap/Image';
+import { CartContext } from "../contexts/CartContext";
 
 export const CartWidget = () => { 
-    return (
-        <div style={{  display: 'flex', justifyContent: 'center', alignItems: 'center', height:'10vh'}}>
-            <Image src={logo} alt="CartW" fluid style={{height:'10vh'}}/>  
-        </div>      
-    );
+    const {totalWidget} = useContext(CartContext)
+    if(totalWidget!==0){
+            return (
+                <Link to="/cart">
+                    <Image src={logo} alt="CartW" fluid style={{height:'10vh'}}/> <span>{totalWidget}</span>
+                </Link> 
+            )
+    }  
 }
