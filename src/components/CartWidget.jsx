@@ -8,8 +8,8 @@ export const CartWidget = () => {
     const {totalWidget} = useContext(CartContext)
     if(totalWidget!==0){
             return (
-                <Link to="/cart">
-                    <Image src={logo} alt="CartW" fluid style={{height:'10vh'}}/> <span>{totalWidget}</span>
+                <Link to="/cart" style={{textDecoration: 'none' }} >
+                    <Image src={logo} alt="CartW" fluid style={{height:'5vh'}}/> <span >{totalWidget}</span>
                 </Link> 
             )
     }  
