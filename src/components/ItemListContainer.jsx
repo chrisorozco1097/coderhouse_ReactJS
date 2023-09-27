@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 
 
 export const ItemListContainer = (props) => {
-    const db = getFirestore();
+    //const db = getFirestore();
     const [product, setProduct] = useState([]);
     const [Loading, setLoading] = useState(1)
     const {id} = useParams();
@@ -34,7 +34,7 @@ export const ItemListContainer = (props) => {
         }, [id]);
     if(Loading) return <div>Loading...</div>
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '10vh'}}>
         <div style={{ display: 'flex', flexWrap:'wrap', justifyContent: 'center', alignItems: 'right'}}>
             <ItemList products={product}/>
         </div> 
