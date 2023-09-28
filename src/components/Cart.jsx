@@ -1,6 +1,6 @@
 //import { toHaveFormValues } from "@testing-library/jest-dom/matchers";
 import { useContext, useState } from "react";
-import { Container, FormGroup} from "react-bootstrap";
+import { Container} from "react-bootstrap";
 import { CartContext } from "../contexts/CartContext";
 import { collection, addDoc, getFirestore } from "firebase/firestore";
 import  * as styles from "../styles/styles";
@@ -9,8 +9,11 @@ import Form from "react-bootstrap/Form";
 export const Cart = () => {
     const [formValues, setFormValues] = useState({
         name: "",
+        lastname: "",
         phone: "",
         email: "",
+        address: "",
+        additional: "",
     })
     
     const {clear, items, removeItem} = useContext(CartContext)
@@ -27,22 +30,31 @@ export const Cart = () => {
         }))
     }
 
-    const sendOrder = () => { 
-        const order = {
-            buyer: formValues,
-            items,
-            total: total(),
-        };
-        const db = getFirestore()
-        const orderCollection = collection(db, 'Orders')
-
-        addDoc(orderCollection, order).then(({id})=>{
-            if(id){
-                clear()
-                alert("Your order" + id + "has been completed!")
-            }
-        })
-    }
+    const sendOrder = () => {
+        if (items.length === 0) {
+            alert("No items have been added to the cart");
+        } else {
+            const order = {
+                buyer: formValues,
+                items,
+                total: total(),
+            };
+            const db = getFirestore();
+            const orderCollection = collection(db, 'Orders');
+    
+            addDoc(orderCollection, order)
+                .then(({ id }) => {
+                    if (id) {
+                        clear();
+                        alert("Your order " + id + " has been completed!");
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error adding document: ', error);
+                    // Handle the error here, e.g., display an error message to the user.
+                });
+        }
+    };
 
   return (
     <Container style={{marginTop:'10vh'}}>
@@ -55,7 +67,7 @@ export const Cart = () => {
       {items.map((item) => (
         <div style={styles.rowStyle} key={item.id}>
           <div style={{ flex: 2 }}>{item.name}</div>
-          <div style={{ flex: 1 }}>{item.price}</div>
+          <div style={{ flex: 1 }}>{`$${item.price}`}</div>
           <div style={{ flex: 1 }}>{item.quantity}</div>
           <div style={{ flex: 1 }}>
             <button style={styles.buttonStyle} onClick={() => removeItem(item.id)}>
@@ -70,46 +82,83 @@ export const Cart = () => {
         <div style={{ flex: 1 }}></div>
         <div style={{ flex: 1 }}>${total()}</div>
       </div> 
-      <h2 style={{display: "flex", justifyContent: 'center'}}>USER INFORMATION</h2>
-    <Form //</Container>className="d-flex align-items-center w-100"
-    >
-    <Form.Group className="mb-3" controlId="formBasicEmail">
+      
+    <Container className="d-flex align-items-center justify-content-center text-align-center flex-column">
+      <h2 style={{display: "flex", justifyContent: 'center', marginTop:"3vh"}}>DELIVERY INFORMATION</h2>
+    <Form className="m-3 d-flex align-items-center flex-column w-100">
+    <Container className="d-flex align-items-center flex-row w-100">
+    <Form.Group className="m-2 d-flex align-items-center flex-column w-100">
         <Form.Label>Name</Form.Label>
         <Form.Control
             onChange={handleChange}
             value={formValues.name}
             type="text"
             name='name'
+            required
+            autoComplete="off"
         />
     </Form.Group>
-    <Form.Group className="mb-3" controlId="formBasicEmail">
+    <Form.Group className="m-2 d-flex align-items-center flex-column w-100">
+        <Form.Label>Last name</Form.Label>
+        <Form.Control
+            onChange={handleChange}
+            value={formValues.lastname}
+            type='text'
+            name='lastname'
+            required
+            autoComplete="off"
+        />
+    </Form.Group>
+    </Container>
+    <Container className="d-flex align-items-center flex-row w-100">
+    <Form.Group className="m-2 d-flex align-items-center flex-column w-100">
         <Form.Label>Email</Form.Label>
         <Form.Control
             onChange={handleChange}
             value={formValues.email}
             type='email'
             name='email'
+            required
+            autoComplete="off"
         />
     </Form.Group>
-    <Form.Group className='mb-e'>
+    <Form.Group className="m-2 d-flex align-items-center flex-column w-100">
         <Form.Label>Phone number</Form.Label>
         <Form.Control 
             onChange={handleChange} 
             value={formValues.phone}
             type='text'
             name='phone'
+            required
+            autoComplete="off"
+        /> 
+    </Form.Group>
+    </Container>
+    <Form.Group className="m-2 d-flex align-items-center flex-column w-75">
+        <Form.Label>Address</Form.Label>
+        <Form.Control 
+            onChange={handleChange} 
+            value={formValues.address}
+            type='text'
+            name='address'
+            required
+            autoComplete="off"
+        /> 
+    </Form.Group>
+    <Form.Group className="m-2 d-flex align-items-center flex-column w-75">
+        <Form.Label>Additional information</Form.Label>
+        <Form.Control 
+            onChange={handleChange} 
+            value={formValues.additional}
+            type='text'
+            name='additional'
+            required
+            autoComplete="off"
         /> 
     </Form.Group>
     </Form> 
-    <button onClick={sendOrder}>Buy</button>
+    <button style={styles.buttonBottomStyle} onClick={sendOrder}>BUY</button>
+    </Container>
     </Container>
   );
 };
-
-{/* <Form>
-    <Form.Group>
-        <Form.Label>Name</Form.Label>
-        <Form.Control onChange={handleChange} value={formValues.name} type="text" name="name" required
-
-    </Form.Group>
-</Form> */}

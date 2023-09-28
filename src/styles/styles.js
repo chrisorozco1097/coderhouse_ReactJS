@@ -35,3 +35,15 @@
     border: 'none',
     cursor: 'pointer',
   };
+
+  export const buttonBottomStyle = {
+    display:'flex',
+    width: '20%',
+    height: '20%',
+    margin: '3vh',
+    justifyContent: 'center',
+    backgroundColor: 'rgb(125,125,125)',
+    color: 'white',
+    border: 'none',
+    cursor: 'pointer',
+  };
